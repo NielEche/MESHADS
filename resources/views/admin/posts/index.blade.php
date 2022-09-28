@@ -109,7 +109,7 @@
 										</li>
 
 										<li>
-											<img src="{{ config('app.url') }}/uploads/posts/{{ $post->image_name }}" style="max-width:100%;">
+											<img src="{{ $post->image_name }}" style="max-width:100%;">
 										</li>
 
 									</ul>
@@ -205,7 +205,7 @@
 								<div class="card-body">
 
 									<a href="#" data-toggle="modal" data-target="#previewModal{{ $post->id }}">
-										<img src="{{ config('app.url') }}/uploads/posts/{{ $post->image_name }}" style="max-width:100%;"></a>
+										<img src="{{ $post->image_name }}" style="max-width:100%;"></a>
 								</div>
 							</div>
 						</div>

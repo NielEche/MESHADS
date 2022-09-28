@@ -96,19 +96,22 @@ class PostService
 	 */
 	public function createRecord(Request $request)
 	{
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->upload(
-				$request->file('file'), 
-				$this->model->storageFolder()
-			);
-		}
+		
+		if($request->file != null){
+           
+            $file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+        }else{
+            $file = '';
+        }
+
 
 		DB::beginTransaction();
 
 		$saved = $this->model->create([
 			'title' => $request->title,
 			'caption' => $request->caption,
-			'slug' => str_slug($request->title), 
+			'slug' => $request->title,
 			'top_content' => $request->top_content,
 			'middle_content' => $request->middle_content,
 			'bottom_content' => $request->bottom_content,
@@ -116,7 +119,7 @@ class PostService
 			'quote' => $request->quote,
 			'quote_author' => $request->quote_author,
 			'is_published' => !isset($request->is_published) ? false : true,
-			'image_name' => $file['filename'] ?? NULL,
+			'image_name' => $file ?? NULL,
 		]);
 
 		DB::commit();
@@ -158,20 +161,22 @@ class PostService
 	{
 		$post = $this->model->find($id);
 
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->update(
-				$request->file('file'), 
-				$post->image_name,
-				$this->model->storageFolder()
-			);
+
+		if($request->file != null){
+			$file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+			$post->image_name = $file;
+		}else{
+			$post->save();
 		}
+
 
 		DB::beginTransaction();
 
 		$updated = $this->model->find($id)->update([
 			'title' => $request->title,
 			'caption' => $request->caption,
-			'slug' => str_slug($request->title), 
+			'slug' =>  $request->title,
 			'top_content' => $request->top_content,
 			'middle_content' => $request->middle_content,
 			'bottom_content' => $request->bottom_content,
@@ -179,7 +184,7 @@ class PostService
 			'quote' => $request->quote,
 			'quote_author' => $request->quote_author,
 			'is_published' => !isset($request->is_published) ? false : true,
-			'image_name' => $file['filename'] ?? $post->image_name,
+			'image_name' => $post->image_name,
 		]);
 
 		DB::commit();

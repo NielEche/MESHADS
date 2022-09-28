@@ -44,18 +44,23 @@ class ProjectImageService
 	 */
 	public function createRecord(Request $request)
 	{
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->upload(
-				$request->file('file'), 
-				$this->model->storageFolder()
-			);
-		}
+
+
+		if($request->file != null){
+           
+            $file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+        }else{
+            $file = '';
+        }
+
 
 		DB::beginTransaction();
-		
-		$image = $this->model->create($request->all());
-		$saved = $image->fill(['image_name' => $file['filename'] ?? NULL])->save();
 
+		$image = $this->model->create($request->all());
+		$saved = $image->fill(['image_name' => $file ?? NULL])->save();
+
+		
 		DB::commit();
 
 		return $saved;
@@ -73,19 +78,22 @@ class ProjectImageService
 	{
 		$image = $this->model->find($id);
 
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->update(
-				$request->file('file'), 
-				$image->image_name,
-				$this->model->storageFolder()
-			);
+
+		if($request->file != null){
+			$file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+			$image->image_name = $file;
+		}else{
+			$image->save();
 		}
+
 
 		DB::beginTransaction();
 
 		$request['is_visible'] = !isset($request['is_visible']) ? false : true;
-		$request['image_name'] = $file['filename'] ?? $image->image_name;
+		$request['image_name'] = $image->image_name;
 
+	
 		$updated = $image->update($request->all());
 
 		DB::commit();

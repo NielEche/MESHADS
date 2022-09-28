@@ -44,10 +44,10 @@ class Post extends Model
         $this->attributes['is_published'] = boolval($value);
     }
 
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = str_slug($value);
-    }
+    //public function setSlugAttribute($value)
+    //{
+      //  $this->attributes['slug'] = str_slug($value);
+    //}
 
     //Accessors
     public function getStatusAttribute()

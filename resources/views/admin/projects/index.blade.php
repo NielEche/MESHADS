@@ -304,7 +304,7 @@
 
 											<div class="form-group form-group-default required @error('project_brief') has-error @enderror">
 												<label>Project Brief</label>
-												<textarea class="summernote form-control @error('project_brief') is-invalid @enderror" name="project_brief" rows="20" style="height: 290px;line-height: 1.5;" required>{{ old('project_brief') }}</textarea>
+												<textarea class="summernote form-control @error('project_brief') is-invalid @enderror" name="project_brief" rows="20" style="height: 290px;line-height: 1.5;">{{ old('project_brief') }}</textarea>
 
 												@error('project_brief')
 													<span class="invalid-feedback" role="alert">
@@ -574,7 +574,7 @@
 							</div>
 
 							<div class="card-body">
-								<a href="#" data-toggle="modal" data-target="#previewModal{{ $project->id }}"><img src="{{ $project->coverImage }}" style="max-width:100%;"></a>
+								<a href="#" data-toggle="modal" data-target="#previewModal{{ $project->id }}"><img src="{{ $project->cover_image_name }}" style="max-width:100%;"></a>
 							</div>
 							
 							<div class="col-lg-12 semi-bold text-capitalize card-title">{{ $project->title }}	</div>

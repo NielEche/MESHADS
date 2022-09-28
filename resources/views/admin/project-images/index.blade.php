@@ -343,7 +343,7 @@
 							</div>
 
 							<div class="card-body">
-								<a href="#" data-toggle="modal" data-target="#previewModal{{ $image->id }}"><img src="{{ $image->projectImage }}" style="max-width:100%;"></a>
+								<a href="#" data-toggle="modal" data-target="#previewModal{{ $image->id }}"><img src="{{ $image->image_name }}" style="max-width:100%;"></a>
 							</div>
 
 						</div>

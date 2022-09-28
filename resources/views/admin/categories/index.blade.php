@@ -176,6 +176,7 @@
 				{{-- End Delete Header Modal --}}
 
 				{{-- Begin Bulk Delete Header Modal --}}
+				@foreach ($categories as $category)
 					<div class="modal fade slide-down disable-scroll" id="bulkDeleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 
 						<div class="modal-dialog modal-sm">
@@ -218,6 +219,7 @@
 						</div>
 
 					</div>
+					@endforeach
 				{{-- End Bulk Delete Header Modal --}}
 
 

@@ -46,7 +46,7 @@ class CategoryService
 	{
 		return $this->model->create([
 			'name' => $data['name'],
-			'slug' => str_slug($data['name']), 
+			'slug' =>  $data['name'],
 			'is_enabled' => !isset($data['is_enabled']) ? false : true,
 		]);
 	}
@@ -73,7 +73,7 @@ class CategoryService
 	{
 		return $this->model->find($id)->update([
 			'name' => $data['name'],
-			'slug' => str_slug($data['name']), 
+			'slug' =>  $data['name'],
 			'is_enabled' => !isset($data['is_enabled']) ? false : true,
 		]);
 	}

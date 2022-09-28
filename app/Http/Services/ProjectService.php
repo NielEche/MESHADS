@@ -114,19 +114,22 @@ class ProjectService
 	 */
 	public function createRecord(Request $request)
 	{
-		if (isset($request->cover_image) && $request->hasfile('cover_image')) {
-			$coverImage = $this->fileUpload->upload(
-				$request->file('cover_image'), 
-				$this->model->storageFolder()
-			);
-		}
+		if($request->cover_image != null){
+           
+            $coverImage = cloudinary()->upload($request->cover_image->getRealPath())->getSecurePath();
 
-		if (isset($request->alternative_cover_image) && $request->hasfile('alternative_cover_image')) {
-			$altCoverImage = $this->fileUpload->upload(
-				$request->file('alternative_cover_image'), 
-				$this->model->storageFolder()
-			);
-		}
+        }else{
+            $coverImage = '';
+        }
+
+
+		if($request->alternative_cover_image != null){
+           
+            $altCoverImage = cloudinary()->upload($request->alternative_cover_image->getRealPath())->getSecurePath();
+
+        }else{
+            $altCoverImage = '';
+        }
 
 		DB::beginTransaction();
 
@@ -136,8 +139,8 @@ class ProjectService
 			'slug' => $request->title,
 			'category_id' => $request->category,
 			'is_visible' => $request->is_visible,
-			'cover_image_name' => $coverImage['filename'] ?? NULL,
-			'alt_cover_image_name' => $altCoverImage['filename'] ?? NULL,
+			'cover_image_name' => $coverImage ?? NULL,
+			'alt_cover_image_name' => $altCoverImage ?? NULL,
 			'client_name' => $request->client_name,
 			'quote' => $request->quote,
 			'quote_author' => $request->quote_author,
@@ -173,21 +176,23 @@ class ProjectService
 	{
 		$project = $this->model->find($id);
 
-		if (isset($request->cover_image) && $request->hasfile('cover_image')) {
-			$coverImage = $this->fileUpload->update(
-				$request->file('cover_image'), 
-				$project->cover_image_name,
-				$this->model->storageFolder()
-			);
+
+		if($request->cover_image != null){
+			$coverImage = cloudinary()->upload($request->cover_image->getRealPath())->getSecurePath();
+
+			$project->cover_image_name = $coverImage;
+		}else{
+			$project->save();
 		}
 
-		if (isset($request->alternative_cover_image) && $request->hasfile('alternative_cover_image')) {
-			$altCoverImage = $this->fileUpload->update(
-				$request->file('alternative_cover_image'), 
-				$project->alt_cover_image_name,
-				$this->model->storageFolder()
-			);
+
+		if($request->alternative_cover_image != null){
+			$altCoverImage = cloudinary()->upload($request->alternative_cover_image->getRealPath())->getSecurePath();
+			$project->alternative_cover_image_name = $altCoverImage;
+		}else{
+			$project->save();
 		}
+
 
 		// dd($altCoverImage);
 
@@ -201,8 +206,8 @@ class ProjectService
 			'slug' => $request->title,
 			'category_id' => $request->category,
 			'is_visible' => $isVisible,
-			'cover_image_name' => $coverImage['filename'] ?? $project->cover_image_name,
-			'alt_cover_image_name' => $altCoverImage['filename'] ?? $project->alt_cover_image_name,
+			'cover_image_name' => $project->cover_image_name,
+			'alt_cover_image_name' => $project->alternative_cover_image_name,
 			'client_name' => $request->client_name,
 			'quote' => $request->quote,
 			'quote_author' => $request->quote_author,
