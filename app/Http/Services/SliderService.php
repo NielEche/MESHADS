@@ -50,17 +50,21 @@ class SliderService
 	 */
 	public function createRecord(Request $request)
 	{
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->upload(
-				$request->file('file'), 
-				$this->model->storageFolder()
-			);
-		}
+		
+
+		if($request->file != null){
+           
+            $file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+        }else{
+            $file = '';
+        }
+
 
 		DB::beginTransaction();
 
 		$slider = $this->model->create($request->all());
-		$saved = $slider->fill(['file_name' => $file['filename'] ?? NULL])->save();
+		$saved = $slider->fill(['file_name' => $file ?? NULL])->save();
 
 		DB::commit();
 
@@ -90,18 +94,20 @@ class SliderService
 	{
 		$slider = $this->model->find($id);
 
-		if (isset($request->file) && $request->hasfile('file')) {
-			$file = $this->fileUpload->update(
-				$request->file('file'), 
-				$slider->file_name,
-				$this->model->storageFolder()
-			);
+	
+		if($request->file != null){
+			$file = cloudinary()->upload($request->file->getRealPath())->getSecurePath();
+
+			$slider->file_name = $file;
+		}else{
+			$slider->save();
 		}
+
 
 		DB::beginTransaction();
 
 		$request['is_visible'] = !isset($request['is_visible']) ? false : true;
-		$request['file_name'] = $file['filename'] ?? $slider->file_name;
+		$request['file_name'] = $slider->file_name;
 
 		$updated = $slider->update($request->all());
 

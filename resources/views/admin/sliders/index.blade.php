@@ -147,7 +147,7 @@
 												</li>
 
 												<li>
-													<img src="{{ $slider->file }}" style="max-width:100%;">
+													<img src="{{ $slider->file_url }}" style="max-width:100%;">
 												</li>
 
 												@if(!empty($slider->caption))
@@ -490,7 +490,7 @@
 							</div>
 
 							<div class="card-body">
-								<a href="#" data-toggle="modal" data-target="#previewModal{{ $slider->id }}"><img src="{{ $slider->file }}" style="max-width:100%;"></a>
+								<a href="#" data-toggle="modal" data-target="#previewModal{{ $slider->id }}"><img src="{{ $slider->file_name }}" style="max-width:100%;"></a>
 
 							</div>
 						</div>
