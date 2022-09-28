@@ -29,10 +29,10 @@ class Breadcrumb extends Model
     ];
 
     // Mutators
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = str_slug($value);
-    }
+  //  public function setSlugAttribute($value)
+    //{
+     //   $this->attributes['slug'] = str_slug($value);
+  //  }
 
     //Accessors
     public function getImageAttribute()

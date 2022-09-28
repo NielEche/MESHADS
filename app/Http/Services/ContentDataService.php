@@ -47,7 +47,7 @@ class contentdataService
 		return $this->model->create([
 			'url' => $data['url'],
 			'social_tag' => $data['social_tag'],
-			'slug' => str_slug($data['url']), 
+			'slug' => $data['url'],
 			'is_enabled' => !isset($data['is_enabled']) ? false : true,
 		]);
 	}

@@ -110,6 +110,7 @@ class ContentDataController extends Controller
 	{
 		return [
 			'facebook' => 'Facebook',
+            'instagram' => 'Instagram',
 			'twitter' => 'Twitter',
 			'pinterest' => 'Pinterest',
 			'behance' => 'Behance',
